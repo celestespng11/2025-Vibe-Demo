@@ -11,6 +11,31 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  if (!process.env.API_KEY) {
+    return (
+      <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-2xl mx-auto bg-gray-800 border border-red-700 rounded-lg p-8 text-center shadow-2xl">
+          <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <h1 className="mt-4 text-2xl font-bold text-white">Configuration Required</h1>
+          <p className="mt-2 text-gray-400">
+            This application requires a Google Gemini API key to function, but it's missing from the environment configuration.
+          </p>
+          <div className="mt-6 text-left bg-gray-900/50 border border-gray-700 p-4 rounded-lg">
+            <p className="font-semibold text-gray-300">How to Fix:</p>
+            <p className="text-gray-400 mt-2">
+              You need to set the <code className="bg-gray-700 text-lime-400 px-2 py-1 rounded-md font-mono">API_KEY</code> environment variable in your deployment settings. This is a secure way to provide credentials to your application without hardcoding them.
+            </p>
+          </div>
+           <a href="https://vercel.com/docs/projects/environment-variables" target="_blank" rel="noopener noreferrer" className="mt-6 inline-block bg-lime-500 text-gray-900 font-bold py-3 px-6 rounded-lg hover:bg-lime-600 transition duration-200">
+            Learn about Environment Variables on Vercel
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!industry.trim()) {

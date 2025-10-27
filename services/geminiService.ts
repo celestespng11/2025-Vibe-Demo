@@ -1,10 +1,14 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { StartupName } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const API_KEY = process.env.API_KEY;
+const ai = API_KEY ? new GoogleGenAI({ apiKey: API_KEY }) : null;
 
 export const generateStartupNames = async (industry: string): Promise<StartupName[]> => {
+  if (!ai) {
+    throw new Error("Gemini API key not configured. Please set the API_KEY environment variable.");
+  }
+
   if (!industry) {
     throw new Error("Industry cannot be empty.");
   }
@@ -60,6 +64,9 @@ export const generateStartupNames = async (industry: string): Promise<StartupNam
   } catch (error) {
     console.error("Error generating startup names:", error);
     if (error instanceof Error) {
+        if (error.message.includes('API key not valid')) {
+            throw new Error('The provided API key is not valid. Please check your deployment environment variables.');
+        }
         throw new Error(`Failed to generate names: ${error.message}`);
     }
     throw new Error("An unknown error occurred while generating names.");
