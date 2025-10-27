@@ -1,0 +1,5 @@
+{
+  "name": "Startup Name Generator",
+  "description": "Generate creative startup names for any industry using AI. Simply enter an industry and get a list of 10 unique names with taglines.",
+  "requestFramePermissions": []
+}
